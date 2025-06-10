@@ -1091,42 +1091,80 @@ class ChatAgent(BaseAgent):
         Dict[str, int],
         str,
     ]:
-        r"""Internal function for agent step model response."""
+        """
+        Internal helper: Call model_backend.run to obtain the model response,
+        automatically handle empty choices (retry) and return a unified structure.
+        """
 
-        response = None
-        # Obtain the model's response
+        # ------------ Tunable Parameters ------------
+        MAX_EMPTY_CHOICES_RETRY = 5      # Maximum retry attempts
+        INITIAL_BACKOFF_SEC     = 1.0    # Initial wait time
+        BACKOFF_BASE            = 2      # Exponential backoff base
+        # --------------------------------------------
+
+        import time, random, logging
+        logger = logging.getLogger(__name__)
+
+        attempt        = 0
+        backoff        = INITIAL_BACKOFF_SEC
+        response       = None            # Final successful response
+        last_exception = None            # Record the last exception thrown by run()
+
         for _ in range(len(self.model_backend.models)):
-            try:
-                response = self.model_backend.run(openai_messages)
-                break
-            except Exception as exc:
-                logger.error(
-                    f"An error occurred while running model "
-                    f"{self.model_backend.model_type}, "
-                    f"index: {self.model_backend.current_model_index}",
-                    exc_info=exc,
-                )
-                continue
-        if not response:
-            raise ModelProcessingError(
-                "Unable to process messages: none of the provided models "
-                "run succesfully."
-            )
+            while True:
+                try:
+                    response = self.model_backend.run(openai_messages)
+                except Exception as exc:
+                    logger.error(
+                        "Model run error (model index %s): %s",
+                        self.model_backend.current_model_index, exc,
+                        exc_info=exc,
+                    )
+                    last_exception = exc
+                    break
 
-        logger.info(
-            f"Model {self.model_backend.model_type}, "
-            f"index {self.model_backend.current_model_index}, "
-            f"processed these messages: {openai_messages}"
-        )
+                # ---------- Added: Empty choices detection ----------
+                if isinstance(response, ChatCompletion) and not response.choices:
+                    if attempt < MAX_EMPTY_CHOICES_RETRY:
+                        attempt += 1
+                        logger.warning(
+                            "Empty choices detected, retry %s/%s after %.1fs...",
+                            attempt, MAX_EMPTY_CHOICES_RETRY, backoff,
+                        )
+                        time.sleep(backoff + random.random())  # Add jitter
+                        backoff *= BACKOFF_BASE
+                        continue          # Continue while loop (retry with the same model)
+                    else:
+                        raise ModelProcessingError(
+                            f"Empty choices after {MAX_EMPTY_CHOICES_RETRY} retries."
+                        )
+                # ---------- Detection complete (valid choices or streaming response obtained) ----------
+                break  # Got valid response, exit while
+
+            if response is not None and (
+                not isinstance(response, ChatCompletion) or response.choices
+            ):
+                # Successfully got a result, do not try other models
+                break
+
+            # If response is still None (model failed) → continue for loop to try the next model
+            # If all models are exhausted and response is still None, error will be raised below
+
+        if response is None:
+            raise ModelProcessingError(
+                "All models failed to generate a valid response.",
+                last_exception,
+            )
 
         if isinstance(response, ChatCompletion):
             output_messages, finish_reasons, usage_dict, response_id = (
                 self.handle_batch_response(response)
             )
-        else:
+        else:  
             output_messages, finish_reasons, usage_dict, response_id = (
                 self.handle_stream_response(response, num_tokens)
             )
+
         return (
             response,
             output_messages,
