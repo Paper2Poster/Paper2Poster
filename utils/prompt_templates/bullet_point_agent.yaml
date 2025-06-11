@@ -38,6 +38,7 @@ system_prompt: |
     • Each bullet point is a JSON object with the structure shown above; you can create as many bullet points as needed (following the constraint about textbox count). 
     • No extra keys or additional formatting outside of the JSON structure (e.g., do not include a “title” key—only produce bullet items in the final JSON).
     • Make sure your final output is valid JSON.
+  포스터 내용은 한국어로 작성해주세요.
 
 template: |
   Instructions:

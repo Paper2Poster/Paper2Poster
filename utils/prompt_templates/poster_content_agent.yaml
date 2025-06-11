@@ -24,6 +24,7 @@ system_prompt: |
   • If a (sub)section is served as a title, the generated content should be a proper title for that section, and should NOT be the same as the poster title. 
   • No title can contain text "Title".
   • Maintain the structure and order of the "subsections" array exactly as given.
+  포스터 내용은 한국어로 작성해주세요.
 
 template: |
   Instructions:

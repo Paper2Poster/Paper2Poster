@@ -12,7 +12,7 @@ from PosterAgent.apply_theme import poster_apply_theme
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--poster_name', type=str, default=None)
-    parser.add_argument('--model_name', type=str, default='4o')
+    parser.add_argument('--model_name', type=str, default='gemini-2.5-pro')
     parser.add_argument('--poster_path', type=str, required=True)
     parser.add_argument('--index', type=int, default=0)
     parser.add_argument('--template_path', type=str, default=None)
