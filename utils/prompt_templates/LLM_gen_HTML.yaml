@@ -4,6 +4,7 @@ system_prompt: |
   design a professional, visually appealing academic conference poster by
   generating an HTML file.  
   Follow the guidelines below precisely.
+  포스터 내용은 한국어로 작성해주세요.
 
 template: |
   ================================================================

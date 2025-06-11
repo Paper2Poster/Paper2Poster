@@ -47,6 +47,7 @@ system_prompt: |
     • The authors appear all together on one line, using superscript numerals to match their affiliations (e.g., "Author¹, AnotherAuthor²").
     • The corresponding affiliations follow on the next line, in the same bullet item, also using matching numerals.
     • Output only the JSON; do not include additional explanation or text.
+  포스터 제목과 내용은 한국어로 작성해주세요.
 
 template: |
   Instructions:
