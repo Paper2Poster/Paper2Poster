@@ -38,6 +38,13 @@ def get_agent_config(model_type):
             "model_platform": ModelPlatformType.DEEPINFRA,
             'max_images': 99
         }
+    elif model_type == 'gemini-2.5-pro':
+        agent_config = {
+            "model_type": ModelType.GEMINI_1_5_PRO, # Using GEMINI_1_5_PRO as no GEMINI_2_5_PRO is available in ModelType enum
+            "model_config": GeminiConfig().as_dict(),
+            "model_platform": ModelPlatformType.GEMINI,
+            'max_images': 99
+        }
     elif model_type == 'phi4':
         agent_config = {
             "model_type": ModelType.DEEPINFRA_PHI_4_MULTIMODAL,
