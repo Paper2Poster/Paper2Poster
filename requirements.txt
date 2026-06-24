@@ -517,7 +517,7 @@ tomlkit==0.13.2
 tornado==6.4.2
 tqdm==4.67.1
 traitlets==5.14.3
-transformers==4.48.0
+transformers>=4.51.0
 tree-sitter==0.23.2
 tree-sitter-python==0.23.6
 trio==0.28.0
