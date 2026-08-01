@@ -15,11 +15,11 @@ Use $paper2poster-poster to prepare this paper for the Paper2Poster pipeline. I 
 ## Claude: full package
 
 ```text
-Follow the workflow in `skills/paper2poster-poster/SKILL.md` and the reference files in `skills/paper2poster-poster/references/`. Turn this paper into a poster package with a brief, poster-ready copy, a layout plan, and a runbook. Keep every technical claim grounded in the source paper.
+Follow the workflow in `skills/SKILL.md` and the reference files in `skills/references/`. Turn this paper into a poster package with a brief, poster-ready copy, a layout plan, and a runbook. Keep every technical claim grounded in the source paper.
 ```
 
 ## Claude: content only
 
 ```text
-Using the local `skills/paper2poster-poster/` instructions as the workflow, convert this paper into concise poster copy only. I want a title block, motivation, method, results, conclusion, and a short QR/contact placeholder. Optimize for scanability rather than completeness.
+Using the local `skills/` instructions as the workflow, convert this paper into concise poster copy only. I want a title block, motivation, method, results, conclusion, and a short QR/contact placeholder. Optimize for scanability rather than completeness.
 ```
