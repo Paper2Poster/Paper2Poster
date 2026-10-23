@@ -16,11 +16,16 @@ We address **How to create a poster from a paper** and **How to evaluate poster.
 ![Overview](./assets/overall.png)
 
 
+## 📚 Awesome Paper2Poster
+
+New to this area? Check out **[Awesome Paper2Poster](awesome-paper2poster.md)** — a curated list of paper-to-poster methods, benchmarks, agent skills, and related paper-to-slides / video / webpage work.
+
 ## 🤩 Paper2Poster for Paper2Poster
 
 ![Overview](./assets/teaser.jpeg)
 
 ## 🔥 Update
+- [x] [2026.10.23] We release **[Awesome Paper2Poster](awesome-paper2poster.md)**, a curated list of paper-to-poster methods, benchmarks and agent skills.
 - [x] [2026.6.6] We introduce lightweight [Paper2Poster SKILL](https://github.com/Paper2Poster/Paper2Poster/tree/main/skills).
 - [x] [2025.10.7] Check out follow-up **[Paper2Video](https://github.com/showlab/Paper2Video)**.
 - [x] [2025.11.3] Added **Gradio demo** support.
