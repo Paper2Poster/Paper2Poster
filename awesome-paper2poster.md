@@ -3,7 +3,6 @@ A curated list of methods, benchmarks, agent skills and tools for paper-to-poste
 
 
 ## Table of Contents <!-- omit in toc -->
-- [Paper2Poster Family](#paper2poster-family)
 - [Paper-to-Poster Methods](#paper-to-poster-methods)
 - [Benchmarks and Datasets](#benchmarks-and-datasets)
 - [Agent Skills](#agent-skills)
@@ -11,17 +10,6 @@ A curated list of methods, benchmarks, agent skills and tools for paper-to-poste
 - [Paper-to-Video](#paper-to-video)
 - [Paper-to-Webpage](#paper-to-webpage)
 - [Tools and Building Blocks](#tools-and-building-blocks)
-
-### Paper2Poster Family
-+ [Paper2Video: Automatic Video Generation from Scientific Papers](https://arxiv.org/abs/2510.05096) (Oct., 2025)  
-  [![Star](https://img.shields.io/github/stars/showlab/Paper2Video.svg?style=social&label=Star)](https://github.com/showlab/Paper2Video)
-  [![arXiv](https://img.shields.io/badge/arXiv-b31b1b.svg)](https://arxiv.org/abs/2510.05096)
-  [![Website](https://img.shields.io/badge/Website-9cf)](https://showlab.github.io/Paper2Video/)
-
-+ [Paper2Poster: Multimodal Poster Automation from Scientific Papers](https://arxiv.org/abs/2505.21497) (May., 2025 | NeurIPS 2025)  
-  [![Star](https://img.shields.io/github/stars/Paper2Poster/Paper2Poster.svg?style=social&label=Star)](https://github.com/Paper2Poster/Paper2Poster)
-  [![arXiv](https://img.shields.io/badge/arXiv-b31b1b.svg)](https://arxiv.org/abs/2505.21497)
-  [![Website](https://img.shields.io/badge/Website-9cf)](https://paper2poster.github.io/)
 
 ### Paper-to-Poster Methods
 + [PosterMELD: Multi-Agent Paper-to-Poster Generation for Controllable Design Diversity with Editable Print-Ready Outputs](https://arxiv.org/abs/2608.02218) (Aug., 2026)  
