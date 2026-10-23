@@ -8,6 +8,7 @@
   <a href="https://huggingface.co/papers/2505.21497" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Daily Papers-red"></a>
   <a href="https://x.com/_akhaliq/status/1927721150584390129" target="_blank"><img alt="X (formerly Twitter) URL" src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fx.com%2F_akhaliq%2Fstatus%2F1927721150584390129"></a>
   <a href="https://huggingface.co/spaces/camel-ai/Paper2Poster" target="_blank"> <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces%20Demo-blue"> </a>
+  <a href="Awesome-Paper2Poster.md" target="_blank"><img src="https://img.shields.io/badge/Awesome-Paper2Poster-brightgreen"></a>
 </p>
 
 We address **How to create a poster from a paper** and **How to evaluate poster.**
@@ -44,6 +45,7 @@ We address **How to create a poster from a paper** and **How to evaluate poster.
 ## 📋 Table of Contents
 
 <!--- [📚 Introduction](#-introduction)-->
+- [🌟 Awesome Paper2Poster](Awesome-Paper2Poster.md)
 - [🧰 Agent SKILL](#-agent-skill)
 - [🛠️ Installation](#-installation)
 - [🐳 Docker Deployment](#-docker-deployment)
