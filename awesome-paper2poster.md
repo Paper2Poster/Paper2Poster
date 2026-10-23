@@ -1,14 +1,6 @@
 # Awesome Paper2Poster [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) <!-- omit in toc -->
 A curated list of methods, benchmarks, agent skills and tools for paper-to-poster generation, together with related paper-to-slides, paper-to-video and paper-to-webpage work.
 
-<p align="center">
-<img src="assets/teaser.jpeg" width="720px"/>
-</p>
-
-<p align="center">
-(Source: <a href="https://paper2poster.github.io/">Paper2Poster</a>.)
-</p>
-
 
 ## Table of Contents <!-- omit in toc -->
 - [Paper2Poster Family](#paper2poster-family)
