@@ -7,6 +7,7 @@ from os import path
 from pdf2image import convert_from_path
 from pathlib import Path
 from PIL import Image
+from openai_settings import resolve_openai_settings
 
 print("Initializing...")
 
@@ -182,8 +183,9 @@ def _compose_logos_horizontally(logo_paths, out_path: Path, box_w=2000, box_h=47
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Paper2Video Generation Pipeline')
     parser.add_argument('--result_dir', type=str, default='output')
-    parser.add_argument('--model_name_t', type=str, default='gpt-5')
-    parser.add_argument('--model_name_v', type=str, default='gpt-5')
+    parser.add_argument('--model_name_t', type=str, default='')
+    parser.add_argument('--model_name_v', type=str, default='')
+    parser.add_argument('--openai_base_url', type=str, default='')
     parser.add_argument('--paper_latex_root', type=str, default=str(P2V_ASSETS))
     parser.add_argument('--ref_text', type=str, default=None)
     parser.add_argument('--if_tree_search', type=bool, default=True)
@@ -196,8 +198,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print("start")
 
+    try:
+        args.openai_base_url, args.model_name_t, args.model_name_v = resolve_openai_settings(
+            args.openai_base_url, args.model_name_t, args.model_name_v
+        )
+    except ValueError as error:
+        parser.error(str(error))
+
     # ✅ 使用传入的 key 设置环境变量
     os.environ["OPENAI_API_KEY"] = args.openai_key
+    if args.openai_base_url:
+        os.environ["OPENAI_API_BASE_URL"] = args.openai_base_url
+    else:
+        os.environ.pop("OPENAI_API_BASE_URL", None)
     os.environ["GEMINI_API_KEY"] = args.gemini_key
 
     # 清空 output

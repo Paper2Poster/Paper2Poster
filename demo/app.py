@@ -1,4 +1,5 @@
 import gradio as gr
+from openai_settings import resolve_openai_settings
 import subprocess, shutil, os, zipfile, datetime, sys, time, uuid, stat, re
 from pathlib import Path
 import base64
@@ -244,6 +245,7 @@ def _prepare_workspace(logs):
 
     # pipeline.py must live inside workspace so that ROOT_DIR=work_dir
     _safe_copy(ROOT / "pipeline.py", work_dir / "pipeline.py")
+    _safe_copy(ROOT / "openai_settings.py", work_dir / "openai_settings.py")
 
     # Create standard IO dirs in workspace
     (work_dir / "input" / "pdf").mkdir(parents=True, exist_ok=True)
@@ -3802,7 +3804,25 @@ def debug_compile_uploaded_zip(zip_file):
 # =====================
 # Gradio pipeline function (ISOLATED)
 # =====================
-def run_pipeline(arxiv_url, pdf_file, openai_key, logo_files, meeting_logo_file, theme_rgb):
+def run_pipeline(
+    arxiv_url,
+    pdf_file,
+    openai_key,
+    logo_files,
+    meeting_logo_file,
+    theme_rgb,
+    openai_base_url="",
+    model_name_t="",
+    model_name_v="",
+):
+    try:
+        openai_base_url, model_name_t, model_name_v = resolve_openai_settings(
+            openai_base_url, model_name_t, model_name_v
+        )
+    except ValueError as error:
+        yield f"❌ OpenAI endpoint settings: {error}", "", None, None, ""
+        return
+
     _cleanup_old_runs(RETENTION_HOURS)
 
     start_time = datetime.datetime.now()
@@ -3871,8 +3891,9 @@ def run_pipeline(arxiv_url, pdf_file, openai_key, logo_files, meeting_logo_file,
     # ====== Build command (run INSIDE workspace) ======
     cmd = [
         sys.executable, "pipeline.py",
-        "--model_name_t", "gpt-5",
-        "--model_name_v", "gpt-5",
+        "--model_name_t", model_name_t,
+        "--model_name_v", model_name_v,
+        "--openai_base_url", openai_base_url,
         "--result_dir", "output",
         "--paper_latex_root", "input/latex_proj",
         "--openai_key", openai_key,
@@ -4085,6 +4106,21 @@ This work, developed in collaboration with [TVG@Oxford](https://torrvision.com/i
                 arxiv_in = gr.Textbox(label="📘 ArXiv URL (choose one)", placeholder="https://arxiv.org/abs/2505.xxxxx")
                 pdf_in   = gr.File(label="📄 Upload PDF (choose one)")
                 key_in   = gr.Textbox(label="🔑 OpenAI API Key", placeholder="sk-...", type="password")
+                openai_base_url_in = gr.Textbox(
+                    label="OpenAI-compatible API base URL (optional)",
+                    placeholder="https://host.example/v1",
+                    info="Leave blank to use OpenAI's default endpoint.",
+                )
+                model_name_t_in = gr.Textbox(
+                    label="Text model ID (custom endpoints)",
+                    placeholder="For example: gpt-5",
+                    info="Required when a custom API base URL is set.",
+                )
+                model_name_v_in = gr.Textbox(
+                    label="Vision model ID (custom endpoints)",
+                    placeholder="For example: gpt-5",
+                    info="Required when a custom API base URL is set; the model must accept image input.",
+                )
 
                 inst_logo_in = gr.File(
                     label="🏷️ Institutional Logo (optional, multiple allowed)",
@@ -4136,7 +4172,17 @@ This work, developed in collaboration with [TVG@Oxford](https://torrvision.com/i
 
     _run_evt = run_btn.click(
         fn=run_pipeline,
-        inputs=[arxiv_in, pdf_in, key_in, inst_logo_in, conf_logo_in, theme_in],
+        inputs=[
+            arxiv_in,
+            pdf_in,
+            key_in,
+            inst_logo_in,
+            conf_logo_in,
+            theme_in,
+            openai_base_url_in,
+            model_name_t_in,
+            model_name_v_in,
+        ],
         outputs=[logs_out, pdf_out, pdf_file_out, zip_out, overleaf_out],
     )
     _run_evt.then(fn=preview_image_from_pdf, inputs=[pdf_file_out], outputs=[img_out])
